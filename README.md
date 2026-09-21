@@ -12,3 +12,6 @@ Simple command-line task manager written in Python.
 ## Usage
 
 Run the application from the command line.
+
+## Development
+Project is under development.
