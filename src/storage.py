@@ -26,3 +26,6 @@ def add_task(title, filename="tasks.json"):
     save_tasks(tasks, filename)
 
     return task
+
+def list_tasks(filename="tasks.json"):
+    return load_tasks(filename)
