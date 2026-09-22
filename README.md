@@ -15,3 +15,8 @@ Run the application from the command line.
 
 ## Development
 Project is under development.
+
+## Commands
+
+- `add <task>` - add a new task
+- `list` - list all tasks
