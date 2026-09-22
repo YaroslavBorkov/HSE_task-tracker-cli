@@ -2,3 +2,5 @@ tasks.json
 *.log
 
 settings.local
+__pycache__/
+*.pyc
