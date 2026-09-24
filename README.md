@@ -20,3 +20,4 @@ Project is under development.
 
 - `add <task>` - add a new task
 - `list` - list all tasks
+PR template check.
