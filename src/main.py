@@ -41,9 +41,9 @@ def main():
             return
 
         if complete_task(index):
-            print(f"Task {index} marked as completed.")
+            print(f"Task {index} completed.")
         else:
-            print(f"Task {index} not found.")
+            print("Task not found.")
     else:
         print(f"Unknown command: {command}")
 
