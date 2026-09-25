@@ -1,7 +1,7 @@
 import sys
 
 from storage import add_task, list_tasks
-
+from storage import add_task, list_tasks, complete_task
 
 def main():
     if len(sys.argv) < 2:
@@ -29,7 +29,21 @@ def main():
         for index, task in enumerate(tasks, start=1):
             status = "x" if task["completed"] else " "
             print(f"{index}. [{status}] {task['title']}")
+    elif command == "complete":
+        if len(sys.argv) < 3:
+            print("Usage: python3 src/main.py complete <task_number>")
+            return
 
+        try:
+            index = int(sys.argv[2])
+        except ValueError:
+            print("Task number must be an integer.")
+            return
+
+        if complete_task(index):
+            print(f"Task {index} completed.")
+        else:
+            print("Task not found.")
     else:
         print(f"Unknown command: {command}")
 
