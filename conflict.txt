@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 Version from complete-task feature
+=======
+Version from main branch
+>>>>>>> origin/main
