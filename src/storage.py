@@ -29,3 +29,15 @@ def add_task(title, filename="tasks.json"):
 
 def list_tasks(filename="tasks.json"):
     return load_tasks(filename)
+
+def complete_task(index, filename="tasks.json"):
+    tasks = load_tasks(filename)
+
+    if index < 1 or index > len(tasks):
+        return False
+
+    tasks[index - 1]["completed"] = True
+    save_tasks(tasks, filename)
+
+    return True
+
