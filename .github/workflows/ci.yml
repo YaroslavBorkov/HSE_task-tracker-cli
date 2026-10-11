@@ -29,3 +29,5 @@ jobs:
 
       - name: TruffleHog secret scan
         uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --config=.trufflehog.yaml
