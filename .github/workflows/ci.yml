@@ -27,11 +27,17 @@ jobs:
       - name: Check Python syntax
         run: python -m compileall src
 
+      - name: Prepare files for secret scan
+        run: |
+          mkdir scan
+          git archive HEAD | tar -x -C scan
+
       - name: TruffleHog secret scan
         run: |
           docker run --rm \
-            -v "$PWD:/repo" \
+            -v "$PWD/scan:/repo" \
             ghcr.io/trufflesecurity/trufflehog:latest \
             filesystem /repo \
             --config=/repo/.trufflehog.yaml \
-            --fail
+            --fail \
+            --results=verified,unknown,unverified
