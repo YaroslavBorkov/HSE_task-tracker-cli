@@ -28,6 +28,10 @@ jobs:
         run: python -m compileall src
 
       - name: TruffleHog secret scan
-        uses: trufflesecurity/trufflehog@main
-        with:
-          extra_args: --config=.trufflehog.yaml
+        run: |
+          docker run --rm \
+            -v "$PWD:/repo" \
+            ghcr.io/trufflesecurity/trufflehog:latest \
+            filesystem /repo \
+            --config=/repo/.trufflehog.yaml \
+            --fail
