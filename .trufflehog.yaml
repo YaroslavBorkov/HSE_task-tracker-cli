@@ -1,0 +1,6 @@
+detectors:
+  - name: lab-test-secret
+    keywords:
+      - LAB_SECRET
+    regex:
+      secret: 'LAB_SECRET=([A-Za-z0-9_-]{20,})'
