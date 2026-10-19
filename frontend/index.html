@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Task Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            max-width: 650px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        input {
+            padding: 10px;
+            width: 65%;
+        }
+
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        li {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Task Tracker</h1>
+        <p>Менеджер задач из лабораторной работы №1</p>
+
+        <form id="task-form">
+            <input id="task-title"
+                   placeholder="Новая задача"
+                   required>
+            <button type="submit">Добавить</button>
+        </form>
+
+        <p id="error"></p>
+        <h2>Список задач</h2>
+        <ul id="task-list"></ul>
+    </div>
+
+    <script>
+        const form = document.getElementById("task-form");
+        const input = document.getElementById("task-title");
+        const list = document.getElementById("task-list");
+        const error = document.getElementById("error");
+
+        async function loadTasks() {
+            const response = await fetch("/api/tasks");
+
+            if (!response.ok) {
+                throw new Error("Не удалось загрузить задачи");
+            }
+
+            const tasks = await response.json();
+            list.innerHTML = "";
+
+            for (const task of tasks) {
+                const item = document.createElement("li");
+                item.textContent =
+                    (task.completed ? "✓ " : "○ ") + task.title;
+                list.appendChild(item);
+            }
+        }
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            error.textContent = "";
+
+            try {
+                const response = await fetch("/api/tasks", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        title: input.value
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error("Не удалось добавить задачу");
+                }
+
+                input.value = "";
+                await loadTasks();
+            } catch (err) {
+                error.textContent = err.message;
+            }
+        });
+
+        loadTasks().catch(err => {
+            error.textContent = err.message;
+        });
+    </script>
+</body>
+</html>

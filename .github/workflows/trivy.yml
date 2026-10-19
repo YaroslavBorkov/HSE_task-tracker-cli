@@ -1,0 +1,40 @@
+
+name: Trivy Docker Image Scan
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan-images:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker images
+        run: |
+          docker compose -p lab2trivy build backend frontend
+
+      - name: Scan Backend image
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: image
+          image-ref: lab2trivy-backend:latest
+          scanners: vuln
+          format: table
+          exit-code: '0'
+
+      - name: Scan Frontend image
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: image
+          image-ref: lab2trivy-frontend:latest
+          scanners: vuln
+          format: table
+          exit-code: '0'
